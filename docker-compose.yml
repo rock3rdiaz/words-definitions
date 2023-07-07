@@ -1,0 +1,40 @@
+volumes:
+  local_db: {}
+
+services:
+  api-words-definitions:
+    container_name: api-words-definitions
+    build:
+      context: ./
+      target: development
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/app
+    depends_on:
+      db-words-definitions:
+        condition: service_healthy
+    env_file:
+    - .env
+  
+  db-words-definitions:
+    image: postgres:15
+    container_name: db-words-definitions
+    ports:
+      - "5432:5432"
+    volumes:
+      - local_db:/var/lib/postgresql/data
+    env_file:
+    - .env
+    restart: always 
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_HOST: ${DB_HOST}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgresql"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
