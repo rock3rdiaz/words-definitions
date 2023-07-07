@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List
+
 from app.src.words.domain.models.word import WordModel
 
 
@@ -7,12 +8,13 @@ class WordsRepository(ABC):
     """
     Word repository
     """
+
     @abstractmethod
-    async def get_word_information(self, word: str) -> Optional[List[WordModel]]:
+    async def get_word_information(self, word: str) -> List[WordModel]:
         raise NotImplementedError
 
     @abstractmethod
-    async def get_all_words(self) -> Optional[List[WordModel]]:
+    async def get_all_words(self) -> List[WordModel]:
         raise NotImplementedError
 
     @abstractmethod
@@ -22,4 +24,3 @@ class WordsRepository(ABC):
     @abstractmethod
     async def delete_word(self, word: str) -> None:
         raise NotImplementedError
-

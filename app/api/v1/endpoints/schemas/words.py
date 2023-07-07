@@ -4,5 +4,5 @@ from pydantic import BaseModel
 
 
 class WordResponseSchema(BaseModel):
-    message: str
-    word: Optional[List[WordModel]]
+    message: Optional[str]
+    words: Optional[List[WordModel]]
